@@ -2,7 +2,7 @@
 MIGRATE_CC = migrate  
 DATABASE_URL = "postgres://test:test@localhost:4444/test?sslmode=disable"
 MIGRATIONS_PATH= ./pkg/database/migrations
-MIGRATIONS_SOURCE= file://D:/go/api/golang-api-fiber-ecom/pkg/database/migrations
+MIGRATIONS_SOURCE= file:./pkg/database/migrations
 
 .PHONY: create-migration migrate-source migrate-down migrate-fixed
 
