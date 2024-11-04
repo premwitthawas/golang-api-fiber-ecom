@@ -31,13 +31,13 @@ CREATE TABLE "products" (
   "updated_at" timestamp
 );
 
-CREATE TABLE "procuts_categories" (
+CREATE TABLE "products_categories" (
   "id" varchar PRIMARY KEY,
   "product_id" varchar,
-  "catagory_id" varchar
+  "category_id" varchar
 );
 
-CREATE TABLE "catagories" (
+CREATE TABLE "categories" (
   "id" int PRIMARY KEY,
   "title" varchar UNIQUE
 );
@@ -73,9 +73,9 @@ ALTER TABLE "users" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
 
 ALTER TABLE "oauth" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "procuts_categories" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
+ALTER TABLE "products_categories" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
-ALTER TABLE "procuts_categories" ADD FOREIGN KEY ("catagory_id") REFERENCES "catagories" ("id");
+ALTER TABLE "products_categories" ADD FOREIGN KEY ("category_id") REFERENCES "categories" ("id");
 
 ALTER TABLE "images" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
