@@ -37,10 +37,16 @@ func CreateServer(cfg config.IConfig, db *sqlx.DB) IServer {
 }
 
 func (s *server) Start() {
-
+	//middleware
+	mid := ModuleMiddlewareInit(s)
+	s.app.Use(mid.Logger())
+	s.app.Use(mid.Cors())
+	//setup routes
 	v1 := s.app.Group("/v1")
-	modules := ModuleFactoryInit(v1, s)
+	modules := ModuleFactoryInit(v1, s, mid)
 	modules.MonitorModule()
+
+	s.app.Use(mid.RouterCheck())
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
