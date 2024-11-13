@@ -6,10 +6,14 @@ import (
 	"github.com/premwitthawas/basic-api/modules/middlewares/middlewaresRepositories"
 	"github.com/premwitthawas/basic-api/modules/middlewares/middlewaresUsecases"
 	monitorHandlers "github.com/premwitthawas/basic-api/modules/monitor/handlers"
+	"github.com/premwitthawas/basic-api/modules/users/usersHandlers"
+	"github.com/premwitthawas/basic-api/modules/users/usersRepositories"
+	"github.com/premwitthawas/basic-api/modules/users/usersUsecases"
 )
 
 type IModuleFactory interface {
 	MonitorModule()
+	UsersModule()
 }
 
 type ModuleFactory struct {
@@ -36,4 +40,12 @@ func ModuleMiddlewareInit(s *server) middlewaresHandlers.IMiddlewareHandler {
 func (m *ModuleFactory) MonitorModule() {
 	handler := monitorHandlers.MonitorHandlerInit(m.server.cfg)
 	m.router.Get("/", handler.HealthCheck)
+}
+
+func (m *ModuleFactory) UsersModule() {
+	repository := usersRepositories.UserRepositoryInit(m.server.db)
+	usecase := usersUsecases.UserUsecaseInit(repository)
+	handler := usersHandlers.UsersHandlerInit(m.server.cfg, usecase)
+	router := m.router.Group("/users")
+	router.Post("/signup", handler.SignUpCustomer)
 }

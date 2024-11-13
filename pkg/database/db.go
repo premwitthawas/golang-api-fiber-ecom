@@ -13,6 +13,7 @@ func DbConnect(cfg config.IDbConfig) *sqlx.DB {
 	if err != nil {
 		log.Fatalf("Connected DB Failed ❌: %v\n", err)
 	}
+	log.Printf("Connected DB Success ✅: %v\n", cfg.Url())
 	db.DB.SetMaxOpenConns(cfg.MaxConnection())
 	return db
 }
